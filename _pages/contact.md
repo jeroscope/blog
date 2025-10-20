@@ -1,1 +1,5 @@
-contact
+---
+layout: single
+title: "contact"
+permalink: /contact/
+---
