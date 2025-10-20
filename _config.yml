@@ -16,3 +16,7 @@ locale: en
 
 include:
   - _pages
+
+minimal_mistakes_skin: "dark"   # 다크 스킨
+sass:
+  style: compressed

@@ -1,0 +1,5 @@
+body { background:#0a0f14; color:#cfe9ff; }
+a { color:#67d7ff; }
+.site-title, .page__title, h1, h2 { letter-spacing: .5px; }
+.nav__list .nav__items a { text-transform: uppercase; }
+.page { background: rgba(8,14,20,.65); border:1px solid rgba(0,200,255,.06); border-radius:16px; }
