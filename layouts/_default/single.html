@@ -1,0 +1,141 @@
+{{ define "main" }}
+  {{ .Scratch.Set "scope" "single" }}
+  <article>
+
+    {{/* ===== Hero (테마 설정 따라 표기) ===== */}}
+    {{ if .Params.showHero | default (site.Params.article.showHero | default false) }}
+      {{ $heroStyle := .Params.heroStyle }}
+      {{ if not $heroStyle }}{{ $heroStyle = site.Params.article.heroStyle }}{{ end }}
+      {{ $heroStyle := print "hero/" $heroStyle ".html" }}
+      {{ if templates.Exists ( printf "partials/%s" $heroStyle ) }}
+        {{ partial $heroStyle . }}
+      {{ else }}
+        {{ partial "hero/basic.html" . }}
+      {{ end }}
+    {{ end }}
+
+    {{/* ===== Header (제목 → author → 날짜 / 태그 제거) ===== */}}
+    <header id="single_header" class="mt-5">
+      {{ if .Params.showBreadcrumbs | default (site.Params.article.showBreadcrumbs | default false) }}
+        {{ partial "breadcrumbs.html" . }}
+      {{ end }}
+
+      <!-- 1) 글제목 -->
+      <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        {{ .Title | emojify }}
+      </h1>
+
+      <!-- 2) author 리스트 (· 구분, 링크 유지) -->
+      <div class="mt-2 text-base text-neutral-300 dark:text-neutral-300">
+        {{ with .Params.authors }}
+          {{ $n := len . }}
+          {{ range $i, $a := . }}
+            {{ $alink := (site.GetPage (printf "authors/%s" (urlize $a))) }}
+            <a href="{{ with $alink }}{{ .RelPermalink }}{{ else }}/authors/{{ urlize $a }}/{{ end }}"
+               class="font-semibold hover:underline">{{ $a }}</a>
+            {{ if lt (add $i 1) $n }}<span class="mx-1 text-neutral-500">·</span>{{ end }}
+          {{ end }}
+        {{ else }}
+          {{ with site.Params.author }}
+            <span class="font-semibold">{{ . }}</span>
+          {{ end }}
+        {{ end }}
+      </div>
+
+      <!-- 3) 날짜 (ISO 8601) -->
+      <div class="text-neutral-400 text-sm">
+        <time datetime="{{ .Date }}">{{ .Date.Format "2006-01-02" }}</time>
+      </div>
+    </header>
+
+    {{/* ===== Body (TOC 제거, 항상 와이드) ===== */}}
+    <section class="mt-6">
+      <div class="min-w-0 min-h-0">
+        {{ partial "series/series.html" . }}
+
+        <!-- 핵심: max-w-none 로 폭 제한 해제 -->
+        <div class="article-content prose dark:prose-invert max-w-none mb-20">
+          {{ .Content }}
+          {{ $defaultReplyByEmail := site.Params.replyByEmail }}
+          {{ $replyByEmail := default $defaultReplyByEmail .Params.replyByEmail }}
+          {{ if $replyByEmail }}
+            <strong class="block mt-8">
+              <a
+                target="_blank"
+                class="m-1 rounded bg-neutral-300 p-1.5 text-neutral-700 hover:bg-primary-500 hover:text-neutral dark:bg-neutral-700 dark:text-neutral-300 dark:hover:bg-primary-400 dark:hover:text-neutral-800"
+                href="mailto:{{ site.Params.Author.email }}?subject={{ replace (printf "Reply to %s" .Title) "\"" "'" }}">
+                Reply by Email
+              </a>
+            </strong>
+          {{ end }}
+        </div>
+
+        {{ if (.Params.showAuthorBottom | default (site.Params.article.showAuthorBottom | default false)) }}
+          {{ template "SingleAuthor" . }}
+        {{ end }}
+
+        {{ partial "series/series-closed.html" . }}
+        {{ partial "sharing-links.html" . }}
+        {{ partial "related.html" . }}
+      </div>
+    </section>
+
+    {{/* ===== Footer: 단일 글용 이전/다음 네비 (Paginator 아님) ===== */}}
+    <footer class="pt-8 print:hidden">
+      {{ partial "article-pagination.html" . }}
+      {{ if .Params.showComments | default (site.Params.article.showComments | default false) }}
+        {{ if templates.Exists "partials/comments.html" }}
+          <div class="pt-3">
+            <hr class="border-dotted border-neutral-300 dark:border-neutral-600">
+            <div class="pt-3">
+              {{ partial "comments.html" . }}
+            </div>
+          </div>
+        {{ end }}
+      {{ end }}
+    </footer>
+  </article>
+{{ end }}
+
+{{/* ===== 테마의 추가 author 블록 유지 (필요시 표기) ===== */}}
+{{ define "SingleAuthor" }}
+  {{ $authorsData := site.Data.authors }}
+  {{ $taxonomies := site.Taxonomies.authors }}
+  {{ $baseURL := site.BaseURL }}
+  {{ $taxonomyLink := 0 }}
+  {{ $showAuthor := 0 }}
+  {{ $isAuthorBottom := (.Params.showAuthorBottom | default ( site.Params.article.showAuthorBottom | default false)) }}
+
+  {{ if not (strings.HasSuffix $baseURL "/") }}
+    {{ $baseURL = delimit (slice $baseURL "/") "" }}
+  {{ end }}
+
+  {{ if .Params.showAuthor | default (site.Params.article.showAuthor | default true) }}
+    {{ $showAuthor = 1 }}
+    {{ partial "author.html" . }}
+  {{ end }}
+
+  {{ range $author := .Page.Params.authors }}
+    {{ $authorData := index $authorsData $author }}
+    {{- if $authorData -}}
+      {{ range $taxonomyname, $taxonomy := $taxonomies }}
+        {{ if (eq $taxonomyname $author) }}
+          {{ $taxonomyLink = delimit (slice $baseURL "authors/" $author "/") "" }}
+        {{ end }}
+      {{ end }}
+
+      {{ $finalLink := $taxonomyLink }}
+      {{ $currentLang := site.Language.Lang }}
+      {{ if eq site.LanguagePrefix "" }}
+        {{ $finalLink = printf "%sauthors/%s/" $baseURL $author }}
+      {{ else }}
+        {{ $finalLink = printf "%s%s/authors/%s/" $baseURL $currentLang $author }}
+      {{ end }}
+      {{ partial "author-extra.html" (dict "context" . "data" $authorData "link" $finalLink) }}
+    {{- end -}}
+  {{ end }}
+
+  {{ if or $taxonomyLink $showAuthor }}
+    <div class="{{ cond $isAuthorBottom "mb-10" "mb-5" }}"></div>
+  {{ end }}
+{{ end }}

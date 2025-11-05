@@ -1,0 +1,23 @@
+[params]
+  enableSearch = false   
+
+[params.footer]
+  showAppearanceSwitcher = false  
+
+[pagination]
+  pagerSize = 9
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+  author = "authors"
+
+[params.article]
+  showTableOfContents = true
+
+[params.contact]
+email = "contact.jeroscope@gmail.com"
+
+[params.social]
+twitter = "JeroScopeX"   
+github  = "jeroscope"

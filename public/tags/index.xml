@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on JeroScope</title>
+    <link>http://localhost:1313/tags/</link>
+    <description>Recent content in Tags on JeroScope</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© 2025 </copyright>
+    <lastBuildDate>Sun, 26 Oct 2025 00:00:02 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Kernel</title>
+      <link>http://localhost:1313/tags/kernel/</link>
+      <pubDate>Sun, 26 Oct 2025 00:00:02 +0000</pubDate>
+      
+      <guid>http://localhost:1313/tags/kernel/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Windows</title>
+      <link>http://localhost:1313/tags/windows/</link>
+      <pubDate>Sun, 26 Oct 2025 00:00:02 +0000</pubDate>
+      
+      <guid>http://localhost:1313/tags/windows/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Fuzzing</title>
+      <link>http://localhost:1313/tags/fuzzing/</link>
+      <pubDate>Sun, 26 Oct 2025 00:00:01 +0000</pubDate>
+      
+      <guid>http://localhost:1313/tags/fuzzing/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Harness</title>
+      <link>http://localhost:1313/tags/harness/</link>
+      <pubDate>Sun, 26 Oct 2025 00:00:01 +0000</pubDate>
+      
+      <guid>http://localhost:1313/tags/harness/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Tips</title>
+      <link>http://localhost:1313/tags/tips/</link>
+      <pubDate>Sun, 26 Oct 2025 00:00:01 +0000</pubDate>
+      
+      <guid>http://localhost:1313/tags/tips/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Intro</title>
+      <link>http://localhost:1313/tags/intro/</link>
+      <pubDate>Sun, 26 Oct 2025 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/tags/intro/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Team</title>
+      <link>http://localhost:1313/tags/team/</link>
+      <pubDate>Sun, 26 Oct 2025 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/tags/team/</guid>
+      <description></description>
+      
+    </item>
+    
+  </channel>
+</rss>

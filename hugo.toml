@@ -1,0 +1,43 @@
+baseURL = 'https://jeroscope.com/'
+languageCode = 'en-us'
+title = 'JeroScope'
+theme = "blowfish"
+
+[menu]
+
+  [[menu.main]]
+  name   = "Home"
+  url    = "/"
+  weight = 10
+
+  [[menu.main]]
+  name   = "Projects"
+  url    = "/projects/"
+  weight = 20
+
+  [[menu.main]]
+  name   = "Blogs"
+  url    = "/blogs/"
+  weight = 30
+
+  [[menu.main]]
+  name   = "Advisories"
+  url    = "/advisories/"
+  weight = 40
+
+  [[menu.main]]
+  name   = "Contact"
+  url    = "/contact/"
+  weight = 50
+
+  [params.list]
+  cardView = true              
+  showSummary = true
+
+[markup]
+  [markup.highlight]
+    noClasses = false
+    codeFences = true
+    guessSyntax = true
+    lineNos = false
+    tabWidth = 4

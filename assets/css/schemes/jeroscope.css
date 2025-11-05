@@ -1,0 +1,36 @@
+:root {
+  --color-neutral: 240, 240, 240;       /* 상단 타이틀 및 글 제목 */
+  --color-neutral-50:     56,189,248;   /* (1) 본문 #태그 제목 색 - 시안블루 */
+  --color-neutral-100:    1,255,255;      
+  --color-neutral-200:    192,132,252;  /* (2) 본문 >태그 내용 색 - 연보라 */
+  --color-neutral-300:    209,213,219;  /* (3) 본문 글자색 - 밝은 회색 */
+  --color-neutral-400:    91,107,128;   /* 날짜색 */
+  --color-neutral-500:    120,130,150;  /* author 묶을 때 특수문자 색 */
+  --color-neutral-600:    156,163,175;  /* (4) 본문 - 태그 특문색 - 중간 회색 */
+  --color-neutral-700:    30,41,59;     /* 카드 박스 테두리색 */
+  --color-neutral-800:    11,15,26;     /* 배경색 */
+  --color-neutral-900:    1,1,255;
+
+  --color-primary-50:     255,1,255;
+  --color-primary-100:    255,1,255;
+  --color-primary-200:    255,1,255;
+  --color-primary-300:    255,1,255;
+  --color-primary-400:    96,165,250;  /* 태그 글자색  */
+  --color-primary-500:    96,165,250;  /* 글 제목에 호버 */
+  --color-primary-600:    59,130,246;   /* 태그 테두리색  */
+  --color-primary-700:    255,1,1;
+  --color-primary-800:    255,1,1;
+  --color-primary-900:    250,204,21;   /* (5) 본문 >태그 특문색 - 따뜻한 노란색 */
+
+  --color-secondary-50:     255,1,1; 
+  --color-secondary-100:    255,1,1;
+  --color-secondary-200:    1,181,221; /* 코드블럭 글자색 */
+  --color-secondary-300:    1,1,1;
+  --color-secondary-400:    167,243,208; /* (6) 백틱 글자색 - 밝은 민트 */
+  --color-secondary-500:    1,1,1;
+  --color-secondary-600:    1,1,1;
+  --color-secondary-700:    1,1,1;
+  --color-secondary-800:    1,1,1;
+  --color-secondary-900:    1,1,1;
+}
+

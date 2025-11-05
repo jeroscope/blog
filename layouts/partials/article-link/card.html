@@ -1,0 +1,146 @@
+{{/* Used by
+  1. list.html and term.html (when the cardView option is enabled)
+  2. Recent articles template (when the cardView option is enabled)
+  3. Shortcode list.html
+*/}}
+{{ $disableImageOptimization := site.Store.Get "disableImageOptimization" }}
+
+{{ $page := .Page }}
+{{ $featured := "" }}
+{{ $featuredURL := "" }}
+{{ if not .Params.hideFeatureImage }}
+  {{/* frontmatter */}}
+  {{ with $page }}
+    {{ with .Params.featureimage }}
+      {{ if or (strings.HasPrefix . "http:") (strings.HasPrefix . "https:") }}
+        {{ if site.Params.hotlinkFeatureImage }}
+          {{ $featuredURL = . }}
+        {{ else }}
+          {{ $featured = resources.GetRemote . }}
+        {{ end }}
+      {{ else }}
+        {{ $featured = resources.Get . }}
+      {{ end }}
+    {{ end }}
+
+    {{/* page resources */}}
+    {{ if not (or $featured $featuredURL) }}
+      {{ $images := .Resources.ByType "image" }}
+      {{ range slice "*feature*" "*cover*" "*thumbnail*" }}
+        {{ if not $featured }}{{ $featured = $images.GetMatch . }}{{ end }}
+      {{ end }}
+    {{ end }}
+
+    {{/* fallback to default */}}
+    {{ if not (or $featured $featuredURL) }}
+      {{ $default := site.Store.Get "defaultFeaturedImage" }}
+      {{ if $default.url }}
+        {{ $featuredURL = $default.url }}
+      {{ else if $default.obj }}
+        {{ $featured = $default.obj }}
+      {{ end }}
+    {{ end }}
+
+    {{/* generate image URL if not hotlink */}}
+    {{ if not $featuredURL }}
+      {{ with $featured }}
+        {{ $featuredURL = .RelPermalink }}
+        {{ if not (or $disableImageOptimization (eq .MediaType.SubType "svg")) }}
+          {{ $featuredURL = (.Resize "600x").RelPermalink }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+<article
+  class="relative min-h-full min-w-full overflow-hidden rounded border border-2 border-neutral-200 shadow-2xl dark:border-neutral-700 card-fixed">
+
+  {{ with $featuredURL }}
+    <div class="flex-none relative overflow-hidden thumbnail_card">
+      <img
+        src="{{ . }}"
+        alt="{{ $page.Title | plainify }}"
+        loading="lazy"
+        decoding="async"
+        class="not-prose absolute inset-0 w-full h-full object-cover">
+    </div>
+  {{ end }}
+
+  {{ if and .Draft .Site.Params.article.showDraftLabel }}
+    <span class="absolute top-0 right-0 m-2">
+      {{ partial "badge.html" (i18n "article.draft" | emojify) }}
+    </span>
+  {{ end }}
+
+  <div class="px-6 py-4 card-body">
+
+{{/* ---------- TAGS (상단) ---------- */}}
+{{ with .Params.tags }}
+  <!-- 오버레이보다 위로: z-30, 클릭 살리기: pointer-events-auto -->
+  <div class="mb-2 flex flex-wrap pl-1 relative z-30 pointer-events-auto tax-row">
+    {{ range . }}
+      {{ $t := . }}
+      {{ $plink := (site.GetPage (printf "tags/%s" (urlize $t))) }}
+      <a
+        href="{{ with $plink }}{{ .RelPermalink }}{{ else }}/tags/{{ urlize $t }}/{{ end }}"
+        class="mr-2 mb-2 inline-flex pointer-events-auto relative z-40">
+        {{ partial "badge.html" $t }}
+      </a>
+    {{ end }}
+  </div>
+{{ end }}
+
+    {{/* ---------- TITLE ---------- */}}
+    <header>
+      <!-- 카드 전체 클릭 오버레이. 제목 a에는 relative 넣지 말고, 오버레이는 z-10로 낮춤 -->
+      <a
+        {{ with .Params.externalUrl }}
+          href="{{ . }}" target="_blank" rel="external"
+        {{ else }}
+          href="{{ .RelPermalink }}"
+        {{ end }}
+        class="not-prose before:absolute before:inset-0 before:z-10 decoration-primary-500 dark:text-neutral text-xl font-bold text-neutral-800 hover:underline hover:underline-offset-2">
+        <h2>
+          {{ .Title | emojify }}
+          {{ if .Params.externalUrl }}
+            <span class="cursor-default align-top text-xs text-neutral-400 dark:text-neutral-500">
+              <span class="rtl:hidden">&#8599;</span>
+              <span class="ltr:hidden">&#8598;</span>
+            </span>
+          {{ end }}
+        </h2>
+      </a>
+    </header>
+
+    {{/* ---------- SUMMARY ---------- */}}
+    {{ if .Params.showSummary | default (.Site.Params.list.showSummary | default false) }}
+      <div class="prose dark:prose-invert py-1 summary-clamp">{{ .Summary | plainify }}</div>
+    {{ end }}
+
+    {{/* ---------- AUTHOR (좌, 한 줄) + DATE(우) ---------- */}}
+    <!-- 오버레이 위에서 클릭되도록: relative z-20 pointer-events-auto -->
+    <div class="mt-3 text-sm text-neutral-500 dark:text-neutral-400 card-meta meta-row relative z-20 pointer-events-auto">
+      <div class="authors-ellipsis">
+        {{ with .Params.authors }}
+          {{ $n := len . }}
+          {{ range $i, $a := . }}
+            {{ $alink := (site.GetPage (printf "authors/%s" (urlize $a))) }}
+            <a href="{{ with $alink }}{{ .RelPermalink }}{{ else }}/authors/{{ urlize $a }}/{{ end }}"
+               class="font-semibold text-neutral-300 hover:underline pointer-events-auto">{{ $a }}</a>
+            {{ if lt (add $i 1) $n }}<span class="mx-1 text-neutral-500">·</span>{{ end }}
+          {{ end }}
+        {{ else }}
+          {{ with site.Params.author }}
+            <span class="font-semibold text-neutral-300">{{ . }}</span>
+          {{ end }}
+        {{ end }}
+      </div>
+
+      <time class="date-nowrap" datetime="{{ .Date }}">{{ .Date.Format "2006-01-02" }}</time>
+    </div>
+
+  </div>
+
+  <div class="px-6 pt-4 pb-2"></div>
+</article>

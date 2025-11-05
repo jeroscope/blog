@@ -1,0 +1,507 @@
+/* =========================
+   BLOG LIST 카드 공통
+========================= */
+
+/* 카드 동일 높이 */
+.card-fixed{ display:flex; flex-direction:column; height:480px; }
+.card-fixed .thumbnail_card{ height:190px; }
+.card-body{ flex:1; display:flex; flex-direction:column; }
+
+/* 요약 말줄임 */
+.summary-clamp{
+  display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden;
+}
+
+/* 메타(저자/날짜)를 카드 하단에 고정 */
+.card-meta{ margin-top:auto; }
+
+/* 컨테이너 폭(전역) */
+main.container{ max-width:1400px !important; }
+@media (min-width:1536px){ main.container{ max-width:1600px !important; } }
+
+/* 저자/날짜 한 줄 정돈(필요 시 사용) */
+.authors-1line, .date-nowrap{ white-space:nowrap; }
+.authors-ellipsis{ min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.meta-row{
+  display:grid !important; grid-template-columns:1fr auto !important; align-items:start; column-gap:1rem;
+}
+
+/* 본문 폭(싱글 페이지) — 너무 넓으면 숫자만 줄여 */
+.article-content.prose{ max-width: 120ch !important; }
+
+/* =========================
+   SINGLE POST — PANEL CARD
+   ========================= */
+/* Only affect single article body container */
+.article-content.prose{
+  background: rgba(26,27,38,.85);            /* #1a1b26 with slight transparency */
+  border: 1px solid rgba(72,80,116,.35);     /* ~ #2a2f4a */
+  box-shadow: 0 18px 48px rgba(0,0,0,.45);
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;                   /* comfortable reading in dark */
+  /* Stretch to align with header/thumbnail edges (compensate outer container px)
+     Use slight asymmetry to visually align with header's content edge */
+  margin-left: -0.875rem;
+  margin-right: -1.125rem;
+}
+@media (min-width: 768px){
+  .article-content.prose{ padding: 1.75rem 2rem; }
+}
+@media (min-width: 1280px){
+  .article-content.prose{ padding: 2rem 2.25rem; }
+}
+@media (min-width: 640px){
+  .article-content.prose{ margin-left: 0rem; margin-right: 0rem; }
+}
+@media (min-width: 1024px){
+  .article-content.prose{ margin-left: 0rem; margin-right: 0rem; }
+}
+
+/* Harmonize text colors inside panel in dark mode */
+.dark .article-content.prose{ color: #cbd5e1; }
+.dark .article-content.prose a{ color:#7dcfff; }
+.dark .article-content.prose hr{ border-color: rgba(148,163,184,.2); }
+.dark .article-content.prose blockquote{
+  border-left: 3px solid rgba(125,207,255,.55);
+  background: rgba(46,52,78,.45);
+}
+
+/* Code blocks within the panel get slightly elevated */
+.article-content.prose pre{ box-shadow: 0 8px 26px rgba(0,0,0,.35); }
+
+/* Limit scheme color variables to Tokyo Night inside article panel */
+.article-content.prose{
+  /* RGB triplets for theme variables (affects components using var(--color-*)) */
+  --color-neutral: 240,240,240;
+  --color-neutral-50: 200,220,255;
+  --color-neutral-100: 200,220,255;
+  --color-neutral-200: 122,162,247;
+  --color-neutral-300: 203,213,225;   /* text */
+  --color-neutral-400: 148,163,184;
+  --color-neutral-500: 120,130,150;
+  --color-neutral-600: 100,116,139;
+  --color-neutral-700: 42,47,74;      /* borders */
+  --color-neutral-800: 26,27,38;      /* background */
+  --color-neutral-900: 26,27,38;
+
+  --color-primary-50: 125,207,255;
+  --color-primary-100: 125,207,255;
+  --color-primary-200: 125,207,255;
+  --color-primary-300: 125,207,255;
+  --color-primary-400: 125,207,255;   /* links */
+  --color-primary-500: 122,162,247;   /* headings hover */
+  --color-primary-600: 56,189,248;    /* accents/borders */
+  --color-primary-700: 26,27,38;
+  --color-primary-800: 26,27,38;
+  --color-primary-900: 255,158,100;   /* warm special accents */
+
+  --color-secondary-400: 158,206,106; /* inline code */
+}
+
+/* =========================
+   CHROMA — TOKYO NIGHT (classes)
+   Requires: noClasses=false in Hugo markup.highlight
+   ========================= */
+/* Base */
+.chroma{ color:#c0caf5; background-color:#1a1b26; }
+.chroma code, .chroma pre{ color:inherit; background:transparent; }
+.article-content.prose :not(pre)>code{
+  background:#1e2233; color:#9ece6a; border:1px solid rgba(72,80,116,.45);
+  border-radius:6px; padding:.08rem .35rem; font-weight:600;
+}
+
+/* Block */
+pre.chroma{ padding:1rem 1.25rem; overflow:auto; border-radius:10px;
+  background:rgb(35,40,61); border:1px solid #2b3048;
+}
+.chroma .ln{ color:#565f89; }
+.chroma .hl{ background: rgba(125,207,255,.08); }
+
+/* Tokens — Tokyo Night with strong precedence */
+.chroma .c{ color:#565f89 !important; }        /* Comment */
+.chroma .cm{ color:#565f89 !important; }
+.chroma .cp{ color:#565f89 !important; }
+.chroma .c1{ color:#565f89 !important; }
+.chroma .cs{ color:#565f89 !important; }
+
+.chroma .k{ color:#bb9af7 !important; }        /* Keyword */
+.chroma .kc{ color:#bb9af7 !important; }
+.chroma .kd{ color:#bb9af7 !important; }
+.chroma .kn{ color:#bb9af7 !important; }
+.chroma .kp{ color:#bb9af7 !important; }
+.chroma .kr{ color:#bb9af7 !important; }
+.chroma .kt{ color:#bb9af7 !important; }
+
+.chroma .o{ color:#89ddff !important; }        /* Operator */
+.chroma .ow{ color:#89ddff !important; }
+
+.chroma .na{ color:#7dcfff !important; }       /* Name.Attribute */
+.chroma .nb{ color:#c0caf5 !important; }       /* Name.Builtin */
+.chroma .nc{ color:#7aa2f7 !important; }       /* Name.Class */
+.chroma .no{ color:#e0af68 !important; }       /* Name.Constant */
+.chroma .nd{ color:#7dcfff !important; }       /* Name.Decorator */
+.chroma .ni{ color:#c0caf5 !important; }
+.chroma .ne{ color:#f7768e !important; }       /* Name.Exception */
+.chroma .nf{ color:#7aa2f7 !important; }       /* Name.Function */
+.chroma .nn{ color:#7aa2f7 !important; }
+.chroma .nt{ color:#bb9af7 !important; }       /* Name.Tag */
+.chroma .nv{ color:#c0caf5 !important; }       /* Name.Variable */
+
+.chroma .l{ color:#c0caf5 !important; }        /* Literal */
+.chroma .ld{ color:#c0caf5 !important; }
+.chroma .s{ color:#9ece6a !important; }        /* String */
+.chroma .sa{ color:#9ece6a !important; }
+.chroma .sb{ color:#9ece6a !important; }
+.chroma .sc{ color:#9ece6a !important; }
+.chroma .dl{ color:#9ece6a !important; }
+.chroma .sd{ color:#9ece6a !important; }
+.chroma .s2{ color:#9ece6a !important; }
+.chroma .se{ color:#ff9e64 !important; }       /* Escape / Special */
+.chroma .sh{ color:#9ece6a !important; }
+.chroma .si{ color:#9ece6a !important; }
+.chroma .sr{ color:#9ece6a !important; }
+.chroma .s1{ color:#9ece6a !important; }
+.chroma .ss{ color:#e0af68 !important; }
+
+.chroma .m{ color:#ff9e64 !important; }        /* Number */
+.chroma .mb{ color:#ff9e64 !important; }
+.chroma .mf{ color:#ff9e64 !important; }
+.chroma .mh{ color:#ff9e64 !important; }
+.chroma .mi{ color:#ff9e64 !important; }
+.chroma .il{ color:#ff9e64 !important; }
+.chroma .mo{ color:#ff9e64 !important; }
+
+.chroma .gd{ color:#f7768e; background: rgba(247,118,142,.08); } /* Deletions */
+.chroma .gi{ color:#9ece6a; background: rgba(158,206,106,.08); } /* Insertions */
+
+/* Line highlight / table */
+.chroma .lnt{ color:#565f89 !important; }
+.chroma .ln{ color:#565f89 !important; }
+.chroma .line{ display:block; }
+.chroma .hl .line{ background: rgba(125,207,255,.08); }
+
+/* Inline diff-ish cues for fences with diffs */
+.chroma .gd .x{ background: rgba(247,118,142,.18); }
+.chroma .gi .x{ background: rgba(158,206,106,.18); }
+
+/* Ensure article code blocks always use Tokyo Night */
+.article-content.prose .highlight,
+.article-content.prose .chroma,
+.article-content.prose pre.chroma,
+.article-content.prose pre code{
+  color:#c0caf5 !important;
+  background-color:rgb(35,40,61) !important;
+  border-color:#2b3048 !important;
+}
+.article-content.prose pre code span{ color:inherit; }
+
+/* =========================
+   TOKYO NIGHT STORM — ensure variables/names don't inherit scheme colors
+   ========================= */
+/* Base text inside blocks */
+.article-content.prose .chroma, .article-content.prose pre.chroma, .article-content.prose pre code{
+  color:#c0caf5 !important;                       /* Storm foreground */
+}
+/* Names/variables (Storm keeps them near-foreground) */
+.chroma .n, .chroma .nx, .chroma .nv, .chroma .vc, .chroma .vg, .chroma .vi, .chroma .vm{
+  color:#c0caf5 !important;
+}
+/* Builtins/booleans/exceptions use slight distinctions */
+.chroma .nb{ color:#c0caf5 !important; }
+.chroma .bp{ color:#c0caf5 !important; }
+.chroma .ne{ color:#f7768e !important; }
+/* Punctuation should not pick up brand color vars */
+.chroma .p{ color:#c0caf5 !important; }
+
+/* =========================
+   PROJECTS 그리드 & 카드
+========================= */
+
+/* 3열 고정 그리드 (모바일 1, 태블릿 2, 데스크톱 3) */
+.projects-grid{ display:grid; gap:2rem; }
+@media (min-width:640px){  .projects-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (min-width:1024px){ .projects-grid{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
+@media (min-width:1280px){ .projects-grid{ grid-template-columns:repeat(3,minmax(0,1fr)); } } /* xl */
+@media (min-width:1536px){ .projects-grid{ grid-template-columns:repeat(3,minmax(0,1fr)); } } /* 2xl */
+
+/* 카드 */
+.proj-card{ background:transparent; border-radius:0.75rem; border:1px solid rgba(120,120,120,.25);
+  transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.proj-card:hover{ transform:translateY(-3px) scale(1.02); box-shadow:0 14px 28px rgba(0,0,0,.25);
+  border-color:rgba(120,160,255,.35);
+}
+
+/* 썸네일(비율) */
+.proj-thumb{ position:relative; height:0; padding-bottom:60%; overflow:hidden; border-radius:0.75rem; }
+.proj-thumb img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  transition:transform .35s ease, filter .35s ease; pointer-events: none !important; cursor: default !important;
+}
+.proj-card:hover .proj-thumb img{ transform:scale(1.05); filter:brightness(1.05); }
+
+/* 하단 그라디언트 오버레이 + 제목 */
+.proj-overlay{
+  position:absolute; inset:auto 0 0 0; height:38%;
+  background:linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(10,14,24,.75) 60%, rgba(10,14,24,.95) 100%);
+  display:flex; align-items:flex-end; padding:.75rem 1rem 1rem;
+}
+.proj-title-txt{
+  font-weight:700; font-size:1.15rem; color:#e8eef9; text-shadow:0 2px 8px rgba(0,0,0,.6);
+  transition:color .2s ease, transform .2s ease;
+}
+@media (min-width:1024px){ .proj-title-txt{ font-size:1.3rem; } }
+.proj-card:hover .proj-title-txt{ color:#fff; transform:translateY(-1px); }
+
+/* 외부 링크 표시 */
+.proj-ext{
+  position:absolute; top:8px; right:10px; font-size:1rem; color:#c6d4ff; opacity:.85;
+  background:rgba(17,24,39,.6); border:1px solid rgba(148,163,184,.35);
+  padding:.2rem .35rem; border-radius:.5rem; backdrop-filter:blur(3px);
+}
+
+/* 이미지 없을 때 */
+.proj-fallback{
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  color:#9aa4b2; background:linear-gradient(180deg, rgba(80,80,80,.25), rgba(40,40,40,.25)); font-weight:600;
+}
+
+/* projects 섹션 내부 모든 a 링크 무력화 */
+.projects-grid a{
+  pointer-events: none !important;
+  cursor: default !important;
+  text-decoration: none !important;
+}
+
+
+/* ===========================
+   CONTACT PAGE — CSS ONLY FIX
+   (no template changes)
+   =========================== */
+
+/* --- Hero 배경/공통 --- */
+.contact-header{
+  text-align: center;
+  margin-bottom: 0px;
+  padding-top: 2rem;
+
+}
+.contact-header h1.contact-title{
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: inline-block;
+  padding: .1em 0 .2em;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.contact-header p{
+  font-size: 1.2rem;
+  color: #a0a0a0;
+  max-width: 1000px;
+  margin: 0 auto;
+  line-height: 1.8;
+  font-weight: 400;
+}
+
+/* ========== 핵심: 폭을 'CSS만'으로 통일 ==========
+   - 테마가 Hero/본문 컨테이너에 tailwind의 .max-w-* / .mx-auto를 쓰므로
+     그 요소들을 한 번에 오버라이드한다.
+   - list.html 수정 필요 없음.
+*/
+
+:root{ --contact-width: 1152px; }   /* 원하는 폭: 1152px(= max-w-6xl). 필요시 1280px로 변경 */
+
+/* Hero 내부 컨테이너(대체로 .mx-auto.max-w-* 조합) */
+.contact-hero :is(.mx-auto, .container, .max-w-5xl, .max-w-6xl, .max-w-7xl){
+  max-width: var(--contact-width) !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 1.5rem;   /* px-6 느낌 */
+  padding-right: 1.5rem;
+}
+
+/* Hero 다음에 오는 본문 섹션의 컨테이너(.mx-auto/.container 등) */
+.contact-hero ~ section :is(.mx-auto, .container, .max-w-5xl, .max-w-6xl, .max-w-7xl){
+  max-width: var(--contact-width) !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+}
+
+/* 좌/우 패널 그리드 간격 보정(벌어짐 줄이기) */
+.contact-hero ~ section .grid{
+  display: grid;                         /* 혹시 flex면 grid로 통일 */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 1rem;                      /* 더 붙이고 싶으면 .75rem */
+  row-gap: 2rem;
+}
+
+/* --- 패널 비주얼 그대로 유지 --- */
+.glass-panel{
+  border-radius: 1rem;
+  padding: 1.25rem 1.25rem 1.5rem;
+  border: 1px solid rgba(148,163,184,.16);
+  background: rgba(2,6,23,.35);
+  box-shadow: 0 16px 40px rgba(0,0,0,.35);
+}
+.panel-head{ display:flex; flex-direction:column; gap:.5rem; }
+.panel-title{ font-size:1.5rem; font-weight:800; letter-spacing:.02em; }
+.panel-rule{ height:1px; width:100%; }
+.panel-rule-teal{ background:linear-gradient(90deg, rgba(45,212,191,.6), transparent); }
+.panel-rule-sky{  background:linear-gradient(90deg, rgba(56,189,248,.6), transparent); }
+.panel-desc{ margin-top:.5rem; color:rgb(163,163,163); max-width:60ch; }
+
+/* --- Email big row --- */
+.contact-row{
+  display:flex; align-items:center; gap:1rem;
+  padding:1rem 1.25rem;
+  border-radius:.9rem;
+  border:1px solid rgba(148,163,184,.18);
+  background: linear-gradient(180deg, rgba(15,23,42,.45), rgba(15,23,42,.2));
+  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+  min-height: 88px;
+}
+.contact-row:hover{ transform: translateY(-2px); box-shadow: 0 14px 36px rgba(0,0,0,.35); border-color: rgba(148,163,184,.26); }
+.row-icon{
+  display:inline-flex; width:2.6rem; height:2.6rem; border-radius:.7rem;
+  align-items:center; justify-content:center;
+  background: rgba(255,255,255,.05);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.10);
+}
+.row-text .row-kicker{ font-size:.8rem; font-weight:700; color:rgba(148,163,184,.9); }
+.row-text .row-title{
+  font-size:1.2rem; font-weight:800; line-height:1.25;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+@media (max-width: 480px){ .row-text .row-title{ font-size:1.05rem; } }
+
+/* --- Social cards --- */
+.contact-card{
+  display:flex; align-items:center; gap:.9rem;
+  padding:1rem 1.1rem; border-radius:.9rem;
+  border:1px solid rgba(148,163,184,.18);
+  background: linear-gradient(180deg, rgba(15,23,42,.45), rgba(15,23,42,.2));
+  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+  min-height: 88px;
+}
+.contact-card:hover{ transform: translateY(-2px); box-shadow: 0 14px 36px rgba(0,0,0,.35); border-color: rgba(148,163,184,.26); }
+.contact-card-sky:hover{    border-color: rgba(56,189,248,.40); }
+.contact-card-violet:hover{ border-color: rgba(139,92,246,.40); }
+
+.card-icon{
+  display:inline-flex; width:2.5rem; height:2.5rem; border-radius:.65rem;
+  align-items:center; justify-content:center;
+  background: rgba(255,255,255,.05);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.12);
+}
+.card-text .card-kicker{ font-size:.8rem; font-weight:700; color:rgba(148,163,184,.9); }
+.card-text .card-title{
+  font-size:1.05rem; font-weight:800;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+
+/* 소셜 2칸 동일 높이 */
+.social-grid{ grid-auto-rows: 1fr; }
+.contact-page { padding-top: 3rem; }     
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ===========================
+   CONTACT PAGE — FORM & INFO (from design reference)
+   =========================== */
+.contact-content{ display:grid; gap:60px; align-items:start; }
+@media (min-width:1024px){ .contact-content{ grid-template-columns:1fr 1fr; } }
+
+.contact-info{
+  background: rgba(255,255,255,.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 20px;
+  padding: 40px;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.contact-info:hover{ transform:translateY(-5px); box-shadow:0 20px 40px rgba(102,126,234,.10); }
+.contact-info h2{ font-size:2.2rem; margin-bottom:30px; color:#ffffff; font-weight: 800;}
+
+.contact-item{
+  display:flex; align-items:center; margin-bottom:25px;
+  padding:20px; background: rgba(255,255,255,.03);
+  border-radius:12px; transition: background-color .3s ease;
+}
+.contact-item:hover{ background: rgba(255,255,255,.08); }
+.contact-item .contact-icon{
+  display:inline-flex; align-items:center; justify-content:center;
+  margin-right:20px; width:40px; height:40px; flex-shrink:0;
+}
+.contact-item .contact-icon svg{
+  width:30px; height:30px;
+}
+.contact-item-content h3{
+  font-size:1.1rem; margin-bottom:5px; color:#ffffff; font-weight:800; letter-spacing: .02em;
+}
+.contact-item-content p{
+  color:#a0a0a0; font-size:.95rem; font-weight:400;
+}
+.contact-item-content a{
+  color:#a0a0a0; text-decoration:none; transition:color .3s ease; font-weight:400;
+}
+.contact-item-content a:hover{ color:#667eea; }
+
+.social-links{ display:flex; gap:15px; margin-top:30px; }
+.social-link{
+  display:flex; align-items:center; justify-content:center;
+  width:50px; height:50px; border-radius:50%;
+  background: rgba(255,255,255,.10); color:#fff; text-decoration:none;
+  transition: all .3s ease; font-size:1.2rem;
+}
+.social-link:hover{
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(102,126,234,.30);
+}
+
+.contact-form{
+  background: rgba(255,255,255,.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 20px;
+  padding: 40px;
+}
+.contact-form h2{ font-size:2.2rem; margin-bottom:30px; color:#ffffff; font-weight:800; }
+.form-group{ margin-bottom:25px; }
+.form-group label{ display:block; margin-bottom:10px; font-weight:500; color:#ffffff; }
+.form-group input, .form-group textarea{
+  width:100%; padding:15px; border:2px solid rgba(255,255,255,.10);
+  border-radius:10px; background: rgba(255,255,255,.05);
+  color:#ffffff; font-size:1rem; font-weight:400; transition: border-color .3s ease;
+}
+.form-group textarea{ resize:vertical; min-height:120px; }
+.form-group input:focus, .form-group textarea:focus{
+  outline:none; border-color:#667eea; background: rgba(255,255,255,.08);
+}
+.submit-btn{
+  width:100%; padding:15px; border:none; border-radius:10px; cursor:pointer;
+  font-size:1.1rem; font-weight:800; color:#fff;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  transition: all .3s ease;
+}
+.submit-btn:hover{ transform:translateY(-2px); box-shadow:0 10px 30px rgba(102,126,234,.30); }
+
+

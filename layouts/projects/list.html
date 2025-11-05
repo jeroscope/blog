@@ -1,0 +1,55 @@
+{{ define "main" }}
+<main class="container mx-auto px-6 py-10">
+  <h1 class="text-3xl font-bold mb-8">{{ .Title }}</h1>
+
+  <div class="projects-grid">
+    {{ range .Pages.ByTitle }}
+      {{ $p := . }}
+
+      {{/* 이미지 탐색 */}}
+      {{ $featured := "" }}
+      {{ $url := "" }}
+      {{ with .Params.featureimage }}{{ $featured = resources.Get . }}{{ end }}
+      {{ if not $featured }}
+        {{ $imgs := .Resources.ByType "image" }}
+        {{ range slice "*feature*" "*cover*" "*thumbnail*" }}
+          {{ if not $featured }}{{ $featured = $imgs.GetMatch . }}{{ end }}
+        {{ end }}
+      {{ end }}
+      {{ with $featured }}{{ $url = .RelPermalink }}{{ end }}
+
+      <article class="proj-card group overflow-hidden rounded-xl border border-neutral-700/40">
+        {{/* 외부 링크만 허용, 그 외에는 링크 없음 */}}
+        {{ if $p.Params.externalUrl }}
+          <a href="{{ $p.Params.externalUrl }}" target="_blank" rel="external" class="block relative">
+        {{ else }}
+          <div class="block relative">
+        {{ end }}
+
+          <div class="proj-thumb">
+            {{ if $url }}
+              <img src="{{ $url }}" alt="{{ $p.Title | plainify }}" loading="lazy" decoding="async">
+            {{ else }}
+              <div class="proj-fallback">No Image</div>
+            {{ end }}
+
+            <div class="proj-overlay">
+              <h2 class="proj-title-txt">{{ $p.Title }}</h2>
+            </div>
+
+            {{ with $p.Params.externalUrl }}
+              <span class="proj-ext" aria-hidden="true">↗</span>
+            {{ end }}
+          </div>
+
+        {{ if $p.Params.externalUrl }}
+          </a>
+        {{ else }}
+          </div>
+        {{ end }}
+      </article>
+
+    {{ end }}
+  </div>
+</main>
+{{ end }}
