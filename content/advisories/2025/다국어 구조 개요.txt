@@ -1,0 +1,31 @@
+다국어 구조 개요
+Hugo는 기본적으로 다국어를 지원합니다. config/_default/config.toml와 config/_default/params.toml에 언어 정보를 추가하고, content 아래 문서를 언어별 파일로 분리하면 됩니다.
+헤더에서 이미 {{ partial "translations.html" . }}를 호출 중이라, 언어별 문서가 준비되면 메뉴에 자동으로 토글이 생깁니다. 다만 현재는 단일 언어라 아무 것도 안 보이는 상태입니다.
+설정 단계
+config/_default/config.toml에 언어 설정 추가:
+   defaultContentLanguage = "en"   [languages.en]     weight = 1     languageName = "English"     title = "JeroScope"   [languages.ko]     weight = 2     languageName = "한국어"     title = "제로스코프"   ```   필요 시 `params`도 언어별 섹션으로 나눌 수 있습니다.2. 다국어 메뉴 정의:   - `config/_default/menu.en.toml`, `config/_default/menu.ko.toml`로 분리하거나, `config/_default/config.toml` 안에서 `[languages.en.menu]` 형태로 각 언어 메뉴를 정의합니다. 메뉴 이름을 한글/영어로 나눠서 표시할 수 있습니다.3. 콘텐츠 구조:   - 한 글당 두 파일을 준비합니다. 예: `content/blogs/test/index.en.md`와 `content/blogs/test/index.ko.md` (또는 `index.md`와 `index.ko.md`). front matter에는 `title`, `date`, `draft` 등 공통 필드를 넣고, 본문을 언어에 맞게 작성합니다.   - `content/advisories/예시/index.en.md`, `index.ko.md`처럼 advisories에도 동일하게 적용합니다.   - 기존 `index.md`가 있다면 `index.en.md`로 이름 변경 후, 한글 버전을 `index.ko.md`로 추가하세요.4. 리스트용 `_index.md`도 언어별로 복제:   - `content/blogs/_index.en.md`, `content/blogs/_index.ko.md`   - `content/advisories/_index.en.md`, `content/advisories/_index.ko.md`   - 각각 제목/설명 등을 언어에 맞게 작성합니다.5. 정적 자산(이미지)은 언어에 따라 다르지 않다면 그대로 공유하면 됩니다.6. 빌드 후 확인:   - `hugo server -D` 실행 → 상단 메뉴에 언어 전환 버튼(EN/KO)이 보이며, 각 글에서 토글 시 대응 언어 문서로 이동합니다.   - 번역이 없는 문서는 토글이 나타나지 않습니다. 두 언어 버전을 모두 작성해야 합니다.### 번역 버튼 커스터마이징- 기본 토글이 단순 텍스트라면, `layouts/partials/translations.html`을 오버라이드(같은 경로에 새 파일 생성)하여 버튼 스타일을 커스터마이징할 수 있습니다.- 예: `layouts/partials/translations.html`을 만들어 아래처럼 변경:  ```  {{ if .Translations }}    <div class="language-switch">      {{ range .Translations }}        <a href="{{ .RelPermalink }}" class="lang-item">{{ .Language.LanguageName }}</a>      {{ end }}    </div>  {{ end }}  ```  스타일은 `assets/css/custom.css`에서 정의하세요.### 주의 사항- 언어 코드(`en`, `ko`)와 파일 접미사(`.en.md`, `.ko.md`)가 정확히 일치해야 Hugo가 번역 관계를 인식합니다.- `resources/_gen`은 캐시이므로 언어 설정 바꾼 뒤 문제가 있으면 삭제 후 다시 빌드해도 됩니다.- 다국어 전환 후 메뉴나 사이트명 등도 언어별로 맞춰줘야 자연스럽습니다.이 절차대로 설정하면 Blogs/Advisories 포함 전체 문서를 영어·한국어로 제공하고, 상단에서 버튼으로 전환할 수 있습니다. 필요하면 구현을 도와드릴 테니 말씀 주세요!
+필요 시 params도 언어별 섹션으로 나눌 수 있습니다.
+다국어 메뉴 정의:
+config/_default/menu.en.toml, config/_default/menu.ko.toml로 분리하거나, config/_default/config.toml 안에서 [languages.en.menu] 형태로 각 언어 메뉴를 정의합니다. 메뉴 이름을 한글/영어로 나눠서 표시할 수 있습니다.
+콘텐츠 구조:
+한 글당 두 파일을 준비합니다. 예: content/blogs/test/index.en.md와 content/blogs/test/index.ko.md (또는 index.md와 index.ko.md). front matter에는 title, date, draft 등 공통 필드를 넣고, 본문을 언어에 맞게 작성합니다.
+content/advisories/예시/index.en.md, index.ko.md처럼 advisories에도 동일하게 적용합니다.
+기존 index.md가 있다면 index.en.md로 이름 변경 후, 한글 버전을 index.ko.md로 추가하세요.
+리스트용 _index.md도 언어별로 복제:
+content/blogs/_index.en.md, content/blogs/_index.ko.md
+content/advisories/_index.en.md, content/advisories/_index.ko.md
+각각 제목/설명 등을 언어에 맞게 작성합니다.
+정적 자산(이미지)은 언어에 따라 다르지 않다면 그대로 공유하면 됩니다.
+빌드 후 확인:
+hugo server -D 실행 → 상단 메뉴에 언어 전환 버튼(EN/KO)이 보이며, 각 글에서 토글 시 대응 언어 문서로 이동합니다.
+번역이 없는 문서는 토글이 나타나지 않습니다. 두 언어 버전을 모두 작성해야 합니다.
+번역 버튼 커스터마이징
+기본 토글이 단순 텍스트라면, layouts/partials/translations.html을 오버라이드(같은 경로에 새 파일 생성)하여 버튼 스타일을 커스터마이징할 수 있습니다.
+예: layouts/partials/translations.html을 만들어 아래처럼 변경:
+  {{ if .Translations }}    <div class="language-switch">      {{ range .Translations }}        <a href="{{ .RelPermalink }}" class="lang-item">{{ .Language.LanguageName }}</a>      {{ end }}    </div>  {{ end }}
+스타일은 assets/css/custom.css에서 정의하세요.
+주의 사항
+언어 코드(en, ko)와 파일 접미사(.en.md, .ko.md)가 정확히 일치해야 Hugo가 번역 관계를 인식합니다.
+resources/_gen은 캐시이므로 언어 설정 바꾼 뒤 문제가 있으면 삭제 후 다시 빌드해도 됩니다.
+다국어 전환 후 메뉴나 사이트명 등도 언어별로 맞춰줘야 자연스럽습니다.
+이 절차대로 설정하면 Blogs/Advisories 포함 전체 문서를 영어·한국어로 제공하고, 상단에서 버튼으로 전환할 수 있습니다. 필요하면 구현을 도와드릴 테니 말씀 주세요!
