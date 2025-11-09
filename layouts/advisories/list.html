@@ -1,0 +1,222 @@
+{{ define "main" }}
+<main class="w-full advisories-page not-prose">
+  <div class="mx-auto max-w-6xl px-6">
+    
+    <section class="page-hero">
+      <h1>{{ .Title }}</h1>
+      {{ with .Params.description }}<p>{{ . }}</p>{{ end }}
+    </section>
+
+    <!-- Tabs and Controls - Single Row -->
+    <section class="advisories-tabs">
+      <div style="display:flex; gap:1rem; align-items:center;">
+        <button class="tab-button active" data-tab="published">Published</button>
+        <button class="tab-button" data-tab="upcoming">Upcoming</button>
+      </div>
+      
+      <div class="table-controls">
+        <div class="entries-control">
+          <label for="entries">Show</label>
+          <select id="entries" class="entries-select">
+            <option value="10" selected>10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+          <span>entries</span>
+        </div>
+        <div class="search-control">
+          <input type="text" id="searchInput" class="search-input" placeholder="Search...">
+        </div>
+      </div>
+    </section>
+
+    <!-- Table -->
+    <section class="advisories-table-wrapper">
+      <table class="advisories-table">
+        <thead>
+          <tr>
+            <th>REPORT ID</th>
+            <th>TITLE</th>
+            <th>REPORT DATE</th>
+            <th>CVE NUMBER</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          {{ $section := .Site.GetPage "section" "advisories" }}
+          {{ $allPages := slice }}
+          {{ if $section }}
+            {{ $allPages = $section.RegularPagesRecursive }}
+          {{ end }}
+          {{ $published := where $allPages ".Params.status" "published" }}
+          {{ $upcoming := where $allPages ".Params.status" "upcoming" }}
+          
+          {{ range sort $published ".Params.report_date" "desc" }}
+          <tr data-status="published" data-report-date="{{ .Params.report_date }}" data-report-id="{{ .Params.report_id }}">
+            <td><a href="{{ .RelPermalink }}">{{ .Params.report_id }}</a></td>
+            <td><a href="{{ .RelPermalink }}">{{ .Title }}</a></td>
+            <td>{{ .Params.report_date }}</td>
+            <td>{{ .Params.cve_number }}</td>
+          </tr>
+          {{ end }}
+          
+          {{ range sort $upcoming ".Params.report_date" "desc" }}
+          <tr class="advisory-row-upcoming" data-status="upcoming" data-report-date="{{ .Params.report_date }}" data-report-id="{{ .Params.report_id }}" style="display:none;">
+            <td><span class="upcoming-cell">{{ .Params.report_id }}</span></td>
+            <td><span class="upcoming-cell">{{ .Title }}</span></td>
+            <td><span class="upcoming-cell">{{ .Params.report_date }}</span></td>
+            <td><span class="upcoming-cell">{{ .Params.cve_number }}</span></td>
+          </tr>
+          {{ end }}
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Pagination -->
+    <section class="pagination-wrapper">
+      <div class="pagination-info">
+        <span id="paginationInfo">Showing entries</span>
+      </div>
+      <div class="pagination-controls" id="paginationControls">
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<script>
+let currentTab = 'published';
+let currentPage = 1;
+let entriesPerPage = 10;
+
+// Tab switching
+document.querySelectorAll('.tab-button').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    currentTab = this.dataset.tab;
+    currentPage = 1;
+    filterAndPaginate();
+  });
+});
+
+// Search functionality
+document.getElementById('searchInput').addEventListener('input', function(e) {
+  currentPage = 1;
+  filterAndPaginate();
+});
+
+// Entries per page
+document.getElementById('entries').addEventListener('change', function(e) {
+  entriesPerPage = parseInt(e.target.value);
+  currentPage = 1;
+  filterAndPaginate();
+});
+
+function filterAndPaginate() {
+  const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+  const allRows = document.querySelectorAll('#tableBody tr');
+  
+  // Filter by tab and search
+  const tableBody = document.getElementById('tableBody');
+  let visibleRows = [];
+  allRows.forEach(row => {
+    const matchesTab = row.dataset.status === currentTab;
+    const matchesSearch = searchTerm === '' || row.textContent.toLowerCase().includes(searchTerm);
+    
+    if (matchesTab && matchesSearch) {
+      visibleRows.push(row);
+    }
+  });
+  
+  // Sort rows: report_date desc, then last 3 chars of report_id desc
+  visibleRows.sort((a, b) => {
+    const dateA = a.dataset.reportDate || '';
+    const dateB = b.dataset.reportDate || '';
+    if (dateA !== dateB) {
+      return dateA > dateB ? -1 : 1;
+    }
+    const idSuffixA = (a.dataset.reportId || '').slice(-3);
+    const idSuffixB = (b.dataset.reportId || '').slice(-3);
+    const numA = parseInt(idSuffixA, 10);
+    const numB = parseInt(idSuffixB, 10);
+    if (!Number.isNaN(numA) && !Number.isNaN(numB)) {
+      if (numA === numB) return 0;
+      return numA > numB ? -1 : 1;
+    }
+    if (idSuffixA === idSuffixB) return 0;
+    return idSuffixA > idSuffixB ? -1 : 1;
+  });
+  
+  // Reorder DOM according to sorted rows
+  visibleRows.forEach(row => tableBody.appendChild(row));
+  
+  // Hide all rows first
+  allRows.forEach(row => row.style.display = 'none');
+  
+  // Show only current page rows
+  const startIdx = (currentPage - 1) * entriesPerPage;
+  const endIdx = startIdx + entriesPerPage;
+  const pageRows = visibleRows.slice(startIdx, endIdx);
+  
+  pageRows.forEach(row => row.style.display = '');
+  
+  // Update pagination info
+  const total = visibleRows.length;
+  const showing = pageRows.length;
+  document.getElementById('paginationInfo').textContent = 
+    total === 0
+      ? 'Showing 0 entries'
+      : `Showing ${startIdx + 1} to ${startIdx + showing} of ${total} entries`;
+  
+  // Update pagination controls
+  updatePaginationControls(total);
+}
+
+function updatePaginationControls(total) {
+  const totalPages = Math.ceil(total / entriesPerPage);
+  const controls = document.getElementById('paginationControls');
+  controls.innerHTML = '';
+  
+  if (totalPages <= 1) return;
+  
+  // Previous button
+  if (currentPage > 1) {
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'page-btn';
+    prevBtn.textContent = '← Prev';
+    prevBtn.onclick = () => { currentPage--; filterAndPaginate(); };
+    controls.appendChild(prevBtn);
+  }
+  
+  // Page numbers
+  for (let i = 1; i <= totalPages; i++) {
+    if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
+      const pageBtn = document.createElement('button');
+      pageBtn.className = 'page-btn' + (i === currentPage ? ' active' : '');
+      pageBtn.textContent = i;
+      pageBtn.onclick = () => { currentPage = i; filterAndPaginate(); };
+      controls.appendChild(pageBtn);
+    } else if (i === currentPage - 3 || i === currentPage + 3) {
+      const dots = document.createElement('span');
+      dots.className = 'page-dots';
+      dots.textContent = '...';
+      controls.appendChild(dots);
+    }
+  }
+  
+  // Next button
+  if (currentPage < totalPages) {
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'page-btn';
+    nextBtn.textContent = 'Next →';
+    nextBtn.onclick = () => { currentPage++; filterAndPaginate(); };
+    controls.appendChild(nextBtn);
+  }
+}
+
+// Initialize
+filterAndPaginate();
+</script>
+{{ end }}
+

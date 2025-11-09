@@ -3,7 +3,7 @@
   <div class="mx-auto max-w-6xl px-6">
 
     <!-- HERO -->
-    <section class="contact-header py-16 text-center">
+    <section class="page-hero contact-header">
       <h1 class="contact-title">
         Contact Us
       </h1>
@@ -14,40 +14,28 @@
 
     <!-- BODY -->
     <section class="py-10">
-      <div class="contact-content grid w-full gap-10 lg:grid-cols-2">
-
-        <!-- Left: Info + Social -->
-        <section class="contact-info">
-          <h2>Get in Touch</h2>
-
-          <!-- Email / Twitter / GitHub boxed rows -->
+      <div class="contact-main">
+        <!-- Contact Info (Horizontal) -->
+        <section class="contact-info-horizontal">
           {{ partial "contact-cards.html" . }}
         </section>
 
-        <!-- Right: Form -->
-        <section class="contact-form">
-          <h2>Send us a Message</h2>
-          <form id="contactForm" action="#" method="post" onsubmit="event.preventDefault(); alert('Thank you for your message! We will get back to you soon.'); this.reset();">
-            <div class="form-group">
-              <label for="name">Name</label>
-              <input type="text" id="name" name="name" required>
-            </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-              <label for="subject">Subject</label>
-              <input type="text" id="subject" name="subject" required>
-            </div>
-            <div class="form-group">
-              <label for="message">Message</label>
-              <textarea id="message" name="message" required></textarea>
-            </div>
-            <button type="submit" class="submit-btn">Send Message</button>
-          </form>
+        <!-- Join Team -->
+        <section class="join-team">
+          <h2 class="join-title">Join the team</h2>
+          <p class="join-description">
+            We're always looking for passionate security researchers to join our mission.
+            If you're interested in vulnerability research and want to make an impact in cybersecurity, feel free to reach out.
+          </p>
+          <div class="join-actions">
+            <a href="mailto:{{ site.Params.contact.email | default "contact.jeroscope@gmail.com" }}?subject=Joining JeroScope Team" class="cta-button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+              </svg>
+              Apply Now
+            </a>
+          </div>
         </section>
-
       </div>
     </section>
 

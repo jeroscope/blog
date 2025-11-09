@@ -1,47 +1,54 @@
 {{ define "main" }}
-<main class="container mx-auto px-6 py-10">
-  <h1 class="text-3xl font-bold mb-8">{{ .Title }}</h1>
+<main class="w-full projects-page not-prose">
+  <div class="mx-auto max-w-6xl px-6">
 
-  <div class="projects-grid">
-    {{ range .Pages.ByTitle }}
-      {{ $p := . }}
+    <section class="page-hero">
+      <h1>{{ .Title }}</h1>
+      {{ with .Params.description }}<p>{{ . }}</p>{{ end }}
+    </section>
 
-      {{/* 이미지 탐색 */}}
-      {{ $featured := "" }}
-      {{ $url := "" }}
-      {{ with .Params.featureimage }}{{ $featured = resources.Get . }}{{ end }}
-      {{ if not $featured }}
-        {{ $imgs := .Resources.ByType "image" }}
-        {{ range slice "*feature*" "*cover*" "*thumbnail*" }}
-          {{ if not $featured }}{{ $featured = $imgs.GetMatch . }}{{ end }}
-        {{ end }}
-      {{ end }}
-      {{ with $featured }}{{ $url = .RelPermalink }}{{ end }}
+    <section class="projects-list">
+      <div class="projects-grid">
+        {{ range .Pages.ByTitle }}
+          {{ $p := . }}
 
-      <article class="proj-card group overflow-hidden rounded-xl border border-neutral-700/40">
-        <div class="block relative"> <!-- 링크 절대 없음 -->
-          <div class="proj-thumb">
-            {{ if $url }}
-              <img src="{{ $url }}" alt="{{ $p.Title | plainify }}" loading="lazy" decoding="async">
-            {{ else }}
-              <div class="proj-fallback">No Image</div>
+          {{/* 이미지 탐색 */}}
+          {{ $featured := "" }}
+          {{ $url := "" }}
+          {{ with .Params.featureimage }}{{ $featured = resources.Get . }}{{ end }}
+          {{ if not $featured }}
+            {{ $imgs := .Resources.ByType "image" }}
+            {{ range slice "*feature*" "*cover*" "*thumbnail*" }}
+              {{ if not $featured }}{{ $featured = $imgs.GetMatch . }}{{ end }}
             {{ end }}
+          {{ end }}
+          {{ with $featured }}{{ $url = .RelPermalink }}{{ end }}
 
-            <div class="proj-overlay">
-              <h2 class="proj-title-txt">{{ $p.Title }}</h2>
+          <article class="proj-card group overflow-hidden rounded-xl border border-neutral-700/40">
+            <div class="block relative"> <!-- 링크 절대 없음 -->
+              <div class="proj-thumb">
+                {{ if $url }}
+                  <img src="{{ $url }}" alt="{{ $p.Title | plainify }}" loading="lazy" decoding="async">
+                {{ else }}
+                  <div class="proj-fallback">No Image</div>
+                {{ end }}
+
+                <div class="proj-overlay">
+                  <h2 class="proj-title-txt">{{ $p.Title }}</h2>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </article>
-    {{ end }}
-  </div>
+          </article>
+        {{ end }}
+      </div>
+    </section>
 
-  <!-- 혹시 테마/단축코드가 a 태그를 끼워도 여기서 전부 차단 -->
-  <script>
-  document.addEventListener('click', function(e){
-    const a = e.target.closest('.projects-grid a');
-    if (a) { e.preventDefault(); e.stopPropagation(); }
-  }, true);
-  </script>
+    <script>
+    document.addEventListener('click', function(e){
+      const a = e.target.closest('.projects-grid a');
+      if (a) { e.preventDefault(); e.stopPropagation(); }
+    }, true);
+    </script>
+  </div>
 </main>
 {{ end }}

@@ -1,5 +1,6 @@
 ---
-title: "Research"
+title: "Blogs"
+description: ""
 cascade:
   showAuthor: true
   showAuthorsBadges: true

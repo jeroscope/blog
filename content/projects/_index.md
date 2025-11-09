@@ -1,5 +1,6 @@
 ---
 title: "Projects"
+description: ""
 
 # 이 파일(섹션 페이지)은 반드시 렌더되도록 허용
 _build:
