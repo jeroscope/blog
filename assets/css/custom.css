@@ -826,4 +826,128 @@ main#main-content > article > .overflow-hidden:first-child{
   .pagination-controls{ flex-wrap:wrap; justify-content:center; }
 }
 
+/* ===========================
+   ADVISORIES SINGLE — TOKYO NIGHT DETAIL
+   =========================== */
+.advisories-single{
+  padding-top:3rem;
+}
+.advisory-header{
+  margin-bottom:3rem;
+}
+.advisory-title{
+  font-size:clamp(1.75rem, 4vw, 2.5rem);
+  font-weight:700;
+  color:#f7f8fc;
+  margin-bottom:1.5rem;
+  line-height:1.2;
+}
+.back-link{
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  color:#a0a8c0;
+  text-decoration:none;
+  font-size:.9rem;
+  transition:color .3s ease;
+}
+.back-link:hover{
+  color:rgb(96,165,250);
+}
+.advisory-panel{
+  background:rgba(23,27,38,.95);
+  border:1px solid rgba(96,165,250,.18);
+  box-shadow:0 25px 60px rgba(10,12,20,.45);
+  border-radius:18px;
+  padding:2.25rem 2.5rem;
+  display:flex;
+  flex-direction:column;
+  gap:2rem;
+}
+.advisory-header-card{
+  display:grid;
+  gap:1rem;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+}
+.header-item{
+  background:rgba(35,40,61,1);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;
+  padding:1rem 1.25rem;
+}
+.header-label{
+  display:block;
+  font-size:.75rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#7d859d;
+  font-weight:600;
+  margin-bottom:.35rem;
+}
+.header-value{
+  color:#e5e9f5;
+  font-size:1.05rem;
+  font-weight:600;
+}
+.advisory-section{
+  display:flex;
+  flex-direction:column;
+  gap:.75rem;
+  font-size:1.05rem;
+  line-height:1.75;
+}
+.advisory-section h2{
+  color:#ffffff;
+  font-size:1.35rem;
+  font-weight:700;
+  margin:0;
+}
+.advisory-section p{
+  color:#cbd5e1;
+  margin:0 0 1.2rem;
+  line-height:inherit;
+}
+.advisory-section p:last-child{ margin-bottom:0; }
+.advisory-body-content{
+  color:#cbd5e1;
+}
+.advisory-panel .article-content.prose{
+  margin:0;
+  padding:0;
+  background:transparent;
+  border:none;
+  box-shadow:none;
+  font-size:inherit;
+  line-height:inherit;
+}
+.advisory-panel .article-content.prose :is(h1,h2,h3,h4,h5,h6){
+  color:#f7f8fc;
+}
+.advisory-panel .article-content.prose :not(pre)>code{
+  background:#1e2233;
+  color:#9ece6a;
+  border:1px solid rgba(72,80,116,.45);
+  border-radius:6px;
+  padding:.08rem .35rem;
+  font-weight:600;
+}
+.advisory-panel .article-content.prose pre{
+  box-shadow:0 8px 26px rgba(0,0,0,.35);
+}
+.advisory-body-content ul,
+.advisory-body-content ol{
+  padding-left:1.25rem;
+}
+.advisory-body-content li{
+  margin-bottom:.5rem;
+}
+.advisory-timeline .timeline-text p{
+  margin:0 0 .4rem;
+  color:#cbd5e1;
+  line-height:1.6;
+}
+.timeline-date{
+  font-weight:600;
+  color:rgb(96,165,250);
+}
 
