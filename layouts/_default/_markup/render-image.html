@@ -1,0 +1,18 @@
+{{- $alt := .Text -}}
+{{- $title := .Title -}}
+{{- $src := .Destination -}}
+
+{{/* 페이지 번들 리소스 우선: ./image.png, image.png 둘 다 매칭 시도 */}}
+{{- $name := replace $src "./" "" -}}
+{{- with .Page.Resources.GetMatch $name -}}
+  {{- $src = .RelPermalink -}}
+{{- end -}}
+
+<figure class="article-figure">
+  <img src="{{ $src | safeURL }}" alt="{{ $alt }}" {{ with $title }}title="{{ . }}"{{ end }} loading="lazy" decoding="async" />
+  {{- with $alt -}}
+    <figcaption>{{ . }}</figcaption>
+  {{- end -}}
+</figure>
+
+

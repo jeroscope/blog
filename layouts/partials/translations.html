@@ -1,0 +1,19 @@
+{{/* Single toggle: show current language label; click navigates to the other language */}}
+{{- $current := .Lang -}}
+{{- $target := cond (eq $current "en") "ko" "en" -}}
+{{- $href := "" -}}
+{{- range .Translations -}}
+  {{- if eq .Lang $target -}}
+    {{- $href = .RelPermalink -}}
+  {{- end -}}
+{{- end -}}
+{{- if eq $href "" -}}
+  {{- range site.Sites -}}
+    {{- if eq .Language.Lang $target -}}
+      {{- $href = .Home.RelPermalink -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+<a href="{{ $href }}" class="langbtn inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm bg-neutral-100/60 dark:bg-neutral-800/70 border border-neutral-300/70 dark:border-neutral-700 hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition">
+  <span class="font-semibold tracking-wide">{{ upper $current }}</span>
+</a>

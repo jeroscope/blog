@@ -3,31 +3,58 @@ languageCode = 'en-us'
 title = 'JeroScope'
 theme = "blowfish"
 
-[menu]
+[languages.en.menu]
 
-  [[menu.main]]
+  [[languages.en.menu.main]]
   name   = "Home"
   url    = "/"
   weight = 10
 
-  [[menu.main]]
+  [[languages.en.menu.main]]
   name   = "Projects"
   url    = "/projects/"
   weight = 20
 
-  [[menu.main]]
+  [[languages.en.menu.main]]
   name   = "Blogs"
   url    = "/blogs/"
   weight = 30
 
-  [[menu.main]]
+  [[languages.en.menu.main]]
   name   = "Advisories"
   url    = "/advisories/"
   weight = 40
 
-  [[menu.main]]
+  [[languages.en.menu.main]]
   name   = "Contact"
   url    = "/contact/"
+  weight = 50
+
+[languages.ko.menu]
+
+  [[languages.ko.menu.main]]
+  name   = "Home"
+  url    = "/ko/"
+  weight = 10
+
+  [[languages.ko.menu.main]]
+  name   = "Projects"
+  url    = "/ko/projects/"
+  weight = 20
+
+  [[languages.ko.menu.main]]
+  name   = "Blogs"
+  url    = "/ko/blogs/"
+  weight = 30
+
+  [[languages.ko.menu.main]]
+  name   = "Advisories"
+  url    = "/ko/advisories/"
+  weight = 40
+
+  [[languages.ko.menu.main]]
+  name   = "Contact"
+  url    = "/ko/contact/"
   weight = 50
 
   [params.list]

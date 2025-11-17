@@ -21,3 +21,13 @@ email = "contact.jeroscope@gmail.com"
 [params.social]
 twitter = "JeroScopeX"   
 github  = "jeroscope"
+
+defaultContentLanguage = "en"
+
+[languages.en]
+  weight = 1
+  languageName = "EN"
+
+[languages.ko]
+  weight = 2
+  languageName = "KO"
