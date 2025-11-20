@@ -44,6 +44,15 @@
         </thead>
         <tbody id="tableBody">
           {{ $allPages := where .Site.RegularPages "Section" "advisories" }}
+          {{ if ne .Site.Language.Lang "en" }}
+            {{ range .Site.Sites }}
+              {{ if eq .Language.Lang "en" }}
+                {{ $enPages := where .RegularPages "Section" "advisories" }}
+                {{ $enUpcoming := where $enPages ".Params.status" "upcoming" }}
+                {{ $allPages = $allPages | append $enUpcoming }}
+              {{ end }}
+            {{ end }}
+          {{ end }}
           {{ $published := where $allPages ".Params.status" "published" }}
           {{ $upcoming := where $allPages ".Params.status" "upcoming" }}
           
