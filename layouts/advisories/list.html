@@ -43,11 +43,7 @@
           </tr>
         </thead>
         <tbody id="tableBody">
-          {{ $section := .Site.GetPage "section" "advisories" }}
-          {{ $allPages := slice }}
-          {{ if $section }}
-            {{ $allPages = $section.RegularPagesRecursive }}
-          {{ end }}
+          {{ $allPages := where .Site.RegularPages "Section" "advisories" }}
           {{ $published := where $allPages ".Params.status" "published" }}
           {{ $upcoming := where $allPages ".Params.status" "upcoming" }}
           
