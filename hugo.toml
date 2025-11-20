@@ -57,6 +57,9 @@ theme = "blowfish"
   url    = "/ko/contact/"
   weight = 50
 
+  [params.homepage]
+  layout = "custom"
+
   [params.list]
   cardView = true              
   showSummary = true

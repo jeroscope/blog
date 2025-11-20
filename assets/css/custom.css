@@ -1073,3 +1073,262 @@ main#main-content > article > .overflow-hidden:first-child{
   font-weight:600;
   color:rgb(96,165,250);
 }
+
+/* ===========================
+   CUSTOM HOMEPAGE HERO SECTION
+   Minimal JeroScope Design
+   =========================== */
+.hero-section{
+  position: relative;
+  background: #0B0F1A;
+  padding: 6rem 0 4rem;
+  overflow: hidden;
+}
+
+/* Content Container */
+.hero-content{
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  max-width: 1400px;
+}
+
+@media (min-width: 1536px){
+  .hero-content{
+    max-width: 1600px;
+  }
+}
+
+.hero-content-inner{
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Title Section */
+.hero-title-section{
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.hero-title{
+  font-size: clamp(2.5rem, 5vw, 3.75rem);
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  max-width: 56rem;
+  margin: 0 auto;
+}
+
+.hero-divider{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.hero-divider-line{
+  height: 1px;
+  width: 2.5rem;
+  background: linear-gradient(90deg, transparent, rgba(77, 163, 255, 0.5), transparent);
+}
+
+.hero-divider-dot{
+  width: 0.375rem;
+  height: 0.375rem;
+  background: #4DA3FF;
+  border-radius: 9999px;
+  box-shadow: 0 0 8px rgba(77, 163, 255, 0.6);
+}
+
+.hero-subtitle{
+  font-size: clamp(1.125rem, 2vw, 1.25rem);
+  font-weight: 500;
+  color: #9BA4B5;
+  max-width: 42rem;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.hero-slogan{
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #4DA3FF;
+  letter-spacing: 0.05em;
+  margin-top: -0.5rem;
+}
+
+/* Skills Grid */
+.hero-skills{
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+}
+
+.hero-skills-grid{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  max-width: 48rem;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px){
+  .hero-skills-grid{
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+.hero-skill-item{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem 1rem;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.2s ease;
+}
+
+.hero-skill-item:hover{
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+}
+
+.hero-skill-icon{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #4DA3FF;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.hero-skill-icon svg{
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  fill: currentColor;
+  stroke-width: 1.5;
+}
+
+/* Fuzzing and LLM icons - slightly bolder */
+.hero-skill-item:nth-child(3) .hero-skill-icon svg,
+.hero-skill-item:nth-child(4) .hero-skill-icon svg{
+  filter: drop-shadow(0 0 0.4px currentColor);
+}
+
+.hero-skill-item:nth-child(3) .hero-skill-icon svg path,
+.hero-skill-item:nth-child(4) .hero-skill-icon svg path{
+  stroke: currentColor;
+  stroke-width: 0.5;
+  paint-order: stroke fill;
+  vector-effect: non-scaling-stroke;
+}
+
+.hero-skill-item:hover .hero-skill-icon{
+  color: #4DA3FF;
+  opacity: 0.9;
+}
+
+.hero-skill-label{
+  font-size: 0.80rem;
+  font-weight: 550;
+  color: #E6E9F0;
+  text-align: center;
+  line-height: 1.4;
+  transition: color 0.2s ease;
+  letter-spacing: 0.02em;
+}
+
+.hero-skill-item:hover .hero-skill-label{
+  color: #FFFFFF;
+}
+
+/* CTA Buttons - Match existing .cta-button style */
+.hero-cta{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding-top: 1.5rem;
+}
+
+.hero-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.hero-btn:hover{
+  transform: translateY(-1px);
+}
+
+.hero-btn-primary{
+  border: 1px solid rgba(77, 163, 255, 0.4);
+  background: rgba(77, 163, 255, 0.1);
+}
+
+.hero-btn-primary:hover{
+  background: rgba(77, 163, 255, 0.2);
+  border-color: rgba(77, 163, 255, 0.6);
+  box-shadow: 0 4px 12px rgba(77, 163, 255, 0.15);
+}
+
+.hero-btn-secondary{
+  border: 1px solid rgba(77, 163, 255, 0.4);
+  background: rgba(77, 163, 255, 0.1);
+}
+
+.hero-btn-secondary:hover{
+  background: rgba(77, 163, 255, 0.2);
+  border-color: rgba(77, 163, 255, 0.6);
+  box-shadow: 0 4px 12px rgba(77, 163, 255, 0.15);
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px){
+  .hero-section{
+    padding: 5rem 0 3rem;
+  }
+  
+  .hero-title{
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle{
+    font-size: 1.125rem;
+  }
+  
+  .hero-skills-grid{
+    gap: 0.875rem;
+  }
+  
+  .hero-skill-item{
+    padding: 1.25rem 0.875rem;
+  }
+  
+  .hero-btn{
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+  }
+}

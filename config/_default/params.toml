@@ -1,6 +1,9 @@
 colorScheme = "jeroscope" 
 defaultAppearance = "dark"
 
+[params.homepage]
+  layout = "custom"
+
 [params.list]
   cardView = true
   showSummary = true
